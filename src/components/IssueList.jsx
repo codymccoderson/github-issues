@@ -13,28 +13,22 @@ class IssueList extends Component {
         return data;
     }
 
-    handleClick = async () => {
-        const newGithubData = await this.loadData();
-
-        this.setState({
-            githubData: newGithubData
-        })
-    }
-
     async componentDidMount() {
-        const githubData = this.loadData();
+        const githubData = await this.loadData();
     
         this.setState({
           githubData: githubData
         })
     }
-
-    githubData(issue) {
+    
+    render() {
+        let issueArray = this.state.githubData;
+        console.log("issueArray: ", issueArray);
         return (
           <ul className="IssueListMap">
-            {issue.length > 0 ? (
-              issue.map(issue => (
-                <li className="IssueListLi" key={issue.node_id}>
+            {issueArray.length > 0 ? (
+              issueArray.map(issue => (
+                <li className="IssueListLi" key={issue.user.node_id}>
                   <Issue issue={issue} />
                 </li>
               ))
@@ -43,18 +37,6 @@ class IssueList extends Component {
             )}
           </ul>
         );
-    };
-    
-    render() {
-        const { issue } = this.state;
-    
-        return (
-          <div className= "IssueList">
-            <Issue issue = { issue } />
-          </div>
-        );
+      }
     }
-
-}
-
 export default IssueList;
